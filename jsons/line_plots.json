@@ -1,0 +1,14 @@
+[
+    {
+        "font": "Storytelling With Data: What is a line graph",
+        "link": "http://www.storytellingwithdata.com/blog/2020/3/24/what-is-a-line-graph",
+        "image": "plots/line/js_0.png",
+        "code" : "codes/line/js_0.txt"
+    },
+    {
+        "font": "@datawoj",
+        "link": "https://datawoj.co.uk/visualising-data-on-which-social-media-network-us-teenagers-prefer/",
+        "image": "plots/line/js_1.png",
+        "code": "codes/line/js_1.txt"
+    }
+]

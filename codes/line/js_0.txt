@@ -1,0 +1,45 @@
+import matplotlib.pyplots as plt
+import numpy as np
+
+x = ['SUN AM', 'SUN PM', 'MON AM', 'MON PM', 'TUE AM', 'TUE PM', 'WED AM', 'WED PM', 'THU AM']
+y = [99.1, 101.3, 103.1, 102.7, 101.3, 100.7, 100.3, 98.2, 97.8]
+
+n = 3*(max(y) - min(y)) / 100
+fig, ax = plt.subplots(figsize=(15,5), dpi=200)
+ax.plot(range(len(x))[:5],y[:5], '-', color='#c94b60', linewidth=3, markersize=12)
+ax.plot(range(len(x))[4:],y[4:], '-', color='#808080', linewidth=3, markersize=10)
+ax.plot(range(len(x))[1:5],y[1:5], 'o', color='#c94b60', linewidth=3, markersize=12)
+ax.plot(0,y[0], 'o', color='#808080', linewidth=3, markersize=12)
+ax.plot(range(len(x))[5:],y[5:], 'o', color='#808080', linewidth=3, markersize=10)
+ax.plot([0, len(x)-1],[98, 98], '-', color='#808080', linewidth=3, markersize=10)
+ax.fill_between(range(len(x)), 97, 104, color='#ededed')
+# ax.set_yticks(np.linspace(min(y), max(y), 5))
+ax.set_yticks(range(96, 107))
+ax.set_xticks(range(len(x)))
+ax.set_xticklabels(x)
+ax.tick_params(top=False, bottom=True, left=True, right=False, labelleft=True, labelbottom=True, colors='#909090')
+ax.spines['left'].set_color('#909090')
+ax.spines['left'].set_position('zero')
+ax.spines['left'].set_bounds(96, 106)
+# ax.spines['left'].set_bounds(min(y), max(y))
+ax.spines['bottom'].set_color('#909090')
+# ax.spines['bottom'].set_position('zero')
+ax.spines['bottom'].set_bounds(0, len(x)-1)
+ax.spines['right'].set_visible(False)
+ax.spines['top'].set_visible(False)
+ax.text(-.28, 108, 'Parker's observed body temperature (oral)', fontsize=20, color='#808080',
+        va='bottom', ha='left')
+
+
+ax.set_title('SUNDAY MORNING - THURSDAY MORNING\n\nFAHRENHEIT', x=0.015, ha='left', va='bottom', fontsize=12, color='#909090')
+ax.text(0, 104, '↑SEEK IMEDIATE CARE', va='bottom', color='#808080', fontsize=8)
+ax.text(0, 96.9, '↓SEEK IMEDIATE CARE', va='top', color='#808080', fontsize=8)
+ax.text(1, 98.1, 'BASELINE HUMAN BODY TEMPERATURE: 98.0', va='bottom', ha='left', color='#808080')
+
+for x_, y_ in zip(range(len(x)), y):
+    if(x_ == 0):
+        ax.text(x_+.1,y_, str(y_), va='top', ha='left', color='#808080', fontsize=12)
+    elif(x_ < 5):
+        ax.text(x_,y_+.2, str(y_), va='bottom', ha='center', color='#c94b60', fontsize=12)
+    else:
+        ax.text(x_,y_+.2, str(y_), va='bottom', ha='center', color='#808080', fontsize=12)        
