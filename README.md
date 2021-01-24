@@ -6,4 +6,4 @@ On terminal run: ```streamlit run main.py```
 
 Layout:
 
-<img src="./app_layout.jpg" width="200">
+<img src="./app_layout.jpg" width="300">
