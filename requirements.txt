@@ -1,0 +1,6 @@
+pandas==1.1.2
+streamlit_nightly==0.74.2.dev20210119
+matplotlib==3.0.2
+numpy==1.18.4
+Pillow==8.1.0
+streamlit==0.75.0
