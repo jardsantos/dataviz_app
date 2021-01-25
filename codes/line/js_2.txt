@@ -1,0 +1,134 @@
+
+import matplotlib.pyplot as plt
+from matplotlib._png import read_png
+from matplotlib.offsetbox import AnnotationBbox, OffsetImage
+from utils import plot_text, plot_annotate # custom lib
+
+suptitle = "Between 1965 and 2016, an American's <style color=#9c7763>Beef</style>, "
+suptitle += "<style color=#fda8b1>Pork</style> and <style color=#f08e39>Chicken</style> "
+suptitle += "<style color=#2e2e2e>consumption has </style>"
+suptitle += "\n<style color=#2e2e2e>increased by 30%</style>."
+suptitle += "This has primarily been driven by a <style color=#f08e39>150% increased in Chicken</style>\n"
+suptitle += "consumption during this time, whilst <style color=#9c7763>Beef has seen a 25% decrease</style>."
+
+title = "<style color=#9c7763>Beef</style>, <style color=#fda8b1>Pork</style>"
+title += " and <style color=#f08e39>Chicken</style> per capita consumption in the US (lb)"
+
+x = df.Year.values[1:-2]
+y_beef  = df.Beef.values[1:-2]
+y_pork = df.Pork.values[1:-2]
+y_chicken = df['Total Chicken'].values[1:-2]
+
+# FIGURE
+fig, ax = plt.subplots(figsize=(4,4), dpi=300)#, facecolor='#f5f5f5')
+
+# LINE PLOTS
+ax.plot(x, y_beef, '-', color='#9c7763', linewidth=2)
+ax.plot(x, y_pork, '-', color='#fda8b1', linewidth=2)
+ax.plot(x, y_chicken, '-', color='#f08e39', linewidth=2)
+
+
+# TICKS
+ax.tick_params(top=False, bottom=False, 
+            left=False, right=False, 
+            labelleft=False, labelbottom=True,
+            colors='#909090')
+
+ax.set_xticks(range(1960, 2020, 5))
+ax.set_xticklabels([str(_) for _ in range(1960, 2020, 5)], fontsize=5)
+
+ax.set_yticks(range(30, 120, 5))
+
+# SPINES
+ax.spines['top'].set_visible(False)
+ax.spines['bottom'].set_visible(False)
+ax.spines['left'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+# AX PROPERTIES
+ax.set_ylim(30, 95)
+ax.grid(axis='x', color='#f5f5f5', lw=.3)
+plt.rc('font', family='serif')
+
+# TITLE
+plot_text(1958, 100, title, ax=ax, va='bottom', ha='left', fontsize=8, color='#303030')
+plot_text(1958, 107, suptitle, ax=ax, va='bottom', ha='left', fontsize=6, color='#808080')
+
+
+# ANNOTATE IMAGES
+pork_img = read_png('./Downloads/pork.png')
+pork_img = OffsetImage(pork_img, zoom=.2)
+pork_img = AnnotationBbox(pork_img, (x[0]-1, y_pork[0]+2),
+                          xycoords='data', frameon=False)
+ax.add_artist(pork_img)
+
+
+chicken_img = read_png('./Downloads/chicken.png')
+chicken_img = OffsetImage(chicken_img, zoom=.2)
+chicken_img = AnnotationBbox(chicken_img, (x[0]-1, y_chicken[0]+2),
+                          xycoords='data', frameon=False)
+ax.add_artist(chicken_img)
+
+
+beef_img = read_png('./Downloads/beef_1.png')
+beef_img = OffsetImage(beef_img, zoom=.2)
+beef_img = AnnotationBbox(beef_img, (x[0]-2, y_beef[0]-2),
+                          xycoords='data', frameon=False)
+ax.add_artist(beef_img)
+
+# ANNOTATE NUMBERS
+ax.text(x[-1]+1, y_beef[-1], f'{y_beef[-1]}', ha='left', va='bottom', fontsize=6, color='#9c7763')
+ax.text(x[-1]+1, y_chicken[-1], f'{y_chicken[-1]}', ha='left', va='bottom', fontsize=6, color='#f08e39')
+ax.text(x[-1]+1, y_pork[-1], f'{y_pork[-1]}', ha='left', va='bottom', fontsize=6, color='#fda8b1')
+
+
+# ANNOTATES TEXTS
+pork_text = '''
+With <style color=#fda8b1>only a 3% decline for Pork</style>, it has seen
+relatively stable consumption over the 50
+years. If Beefs downward trend continues,
+<style color=#fda8b1>Pork</style> will become the #2 consumed meat in
+the US
+'''.strip()
+plot_annotate(pork_text, xy=(x[-1], y_pork[-1]),  xycoords='data',
+              xytext=(x[-1]-24, y_pork[-1]-10), textcoords='data',
+              fontsize=4, color='#505050', ha='left', va="top",
+              bbox=dict(boxstyle="square", alpha=1, color='#fafafa'),
+              arrowprops=dict(arrowstyle="-", color='#000000', lw=.1, alpha=1))
+
+beef_text = '''
+<style color=#9c7763>Beef</style> has reached an all time
+high of 94.1 lb consumed
+in 1976, but saw a steady
+decline ever since
+'''.strip()
+plot_annotate(beef_text, xy=(x[11], y_beef[11]),  xycoords='data',
+              xytext=(x[11]-7.55, 74), textcoords='data',
+              fontsize=4, color='#505050', ha='left', va="top",
+              bbox=dict(boxstyle="square", alpha=1, color='#fafafa'),
+              arrowprops=dict(arrowstyle="-", color='#000000', lw=.1, alpha=1))
+
+
+chicken_text_1 = '''
+1992 was the tipping point
+where <style color=#f08e39>Chicken</style> overtook <style color=#9c7763>Beef</style>
+'''.strip()
+plot_annotate(chicken_text_1, xy=(x[27], y_chicken[27]),  xycoords='data',
+              xytext=(x[27]-7.75, 87), textcoords='data',
+              fontsize=4, color='#505050', ha='left', va="top",
+              bbox=dict(boxstyle="square", alpha=1, color='#fafafa'),
+              arrowprops=dict(arrowstyle="-", color='#000000', lw=.1, alpha=1))
+
+
+chicken_text_2 = '''
+Since 1976-2016 <style color=#f08e39>Chicken has</style>
+<style color=#f08e39>nearly tripled</style> in it's consumption,
+mainly at the expense of <style color=#9c7763>Beef</style>
+'''.strip()
+plot_annotate(chicken_text_2, xy=(x[-1], y_chicken[-1]),  xycoords='data',
+            xytext=(x[-1]-20, y_chicken[-1]+6), textcoords='data',
+            fontsize=4, color='#505050', ha='left', va="top",
+            bbox=dict(boxstyle="square", alpha=1, color='#fafafa'),
+            arrowprops=dict(arrowstyle="-", color='#000000', lw=.1, alpha=1))
+
+plt.show()

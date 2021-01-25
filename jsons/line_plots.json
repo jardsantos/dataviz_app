@@ -10,5 +10,11 @@
         "link": "https://datawoj.co.uk/visualising-data-on-which-social-media-network-us-teenagers-prefer/",
         "image": "plots/line/js_1.png",
         "code": "codes/line/js_1.txt"
+    },
+    {
+        "font": "Datasaurus Rex - #MakeOverMonday Week 01 2018",
+        "link": "https://datasaurus-rex.com/gallery/makeovermonday-week-01-2018",
+        "image": "plots/line/js_2.png",
+        "code": "codes/line/js_2.txt"
     }
 ]

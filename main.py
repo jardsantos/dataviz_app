@@ -24,7 +24,12 @@ if(plot_type == 'Line'):
 
     images = [Image.open(_['image']) for _ in line_plots]
 
-    st.image(images, [f'Plot {i}' for i in range(len(line_plots))], width=150)
+    st.image([im.resize((
+                min(int(im.size[0]*.1), 150), 
+                min(int(im.size[1]*.1), 60)
+              ))
+              for im in images],
+             [f'Plot {i}' for i in range(len(line_plots))])
 
     pick_img = st.radio("Choose plot:",
                         [str(i) for i in range(len(line_plots))])
@@ -33,8 +38,13 @@ if(plot_type == 'Line'):
 
     st.markdown('Font: [%s](%s)' % (line_plots[int(pick_img)]['font'],
                                     line_plots[int(pick_img)]['link']))
-    st.image(images[int(pick_img)], width=750)
 
+    im = images[int(pick_img)]
+    st.image(im.resize((
+        min(int(im.size[0]*.5), 800),
+        min(int(im.size[1]*.5), 600)
+    )))
+    
     st.markdown('Code')
     with open(line_plots[int(pick_img)]['code'], 'r') as f:
         code = f.read()

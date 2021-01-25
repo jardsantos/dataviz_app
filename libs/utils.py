@@ -77,3 +77,41 @@ def __key_value(x, i):
         return int(x[i].strip())
     except:
         return x[i].strip().replace("'", '').replace("\"", '')
+
+
+def plot_annotate(text, xy, orientation='horizontal', ax=None, **kwargs):
+    
+    
+    if ax is None:
+        ax = plt.gca()
+    if orientation == 'vertical':
+        kwargs.update(rotation=90, verticalalignment='bottom')
+
+    ax.annotate(re.sub('(<style .*?>)|(</style>)', '', text), xy, alpha=0, **kwargs)
+    
+    valid_kwargs = [
+        'agg_filter', 'alpha', 'animated', 'backgroundcolor', 
+        'clip_box', 'clip_on', 'clip_path', 'color', 'c', 
+        'contains', 'figure', 'fontfamily', 'family', 'fontproperties', 
+        'font_properties', 'fontsize', 'size', 'fontstretch', 'stretch', 
+        'fontstyle', 'style', 'fontvariant', 'variant', 'fontweight', 
+        'weight', 'gid', 'horizontalalignment', 'ha', 'in_layout', 
+        'label', 'linespacing', 'multialignment', 'ma', 'path_effects', 
+        'picker', 'position', 'rasterized', 'rotation', 'rotation_mode', 
+        'sketch_params', 'snap', 'text', 'transform', 'url', 
+        'usetex', 'verticalalignment', 'va', 'visible', 'wrap', 
+        'x', 'y', 'zorder'
+    ]
+    
+    if('xytext' in kwargs.keys()):
+        if(('textcoords' in kwargs.keys()) & (kwargs['textcoords'] == 'offset points')):
+            x = xy[0] + kwargs['xytext'][0]
+            y = xy[1] + kwargs['xytext'][1]
+        else:
+            x, y = kwargs['xytext']
+    else:
+        x, y = xy
+
+    kwargs = {k: v for k,v in kwargs.items() if k in valid_kwargs}
+
+    plot_text(x,y , text, orientation, ax, **kwargs)
